@@ -50,24 +50,27 @@ var response = {
   ]
 };
 
-const sortResponse = (par1, par2) => {
-  const responseMale = response.products.filter(element => {
-     return element.productGender === 'male' && element.productType === 'mounting';
-   });
-   return responseMale;
-}
-
-
-/* GET products. */
 router.get('/', function (req, res, next) {
-  // sortResponse();
-  // res.json(req.query);
-  res.json(response);
-});
-
-router.get('/male', function (req, res, next) {
-  sortResponse();
-  res.json(sortResponse());
+  let filterParams = req.query;
+  if (Object.keys(filterParams).length !== 0) {
+    const returnResult = () => {
+      let result;
+      // if
+      for (const key in filterParams) {
+        result = response.products.filter(element => {
+          return element[key] === filterParams[key];
+        });
+      }
+      return result;
+    }
+    var result = {
+      "success": "true",
+      "products": returnResult(),
+    }
+    res.json(result);
+  } else {
+    res.json(response);
+  }
 });
 
 module.exports = router;
