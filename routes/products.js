@@ -55,7 +55,6 @@ router.get('/', function (req, res, next) {
   if (Object.keys(filterParams).length !== 0) {
     const returnResult = () => {
       let result;
-      // if
       for (const key in filterParams) {
         result = response.products.filter(element => {
           return element[key] === filterParams[key];
@@ -63,11 +62,11 @@ router.get('/', function (req, res, next) {
       }
       return result;
     }
-    var result = {
+    var filteredResponse = {
       "success": "true",
       "products": returnResult(),
     }
-    res.json(result);
+    res.json(filteredResponse);
   } else {
     res.json(response);
   }
